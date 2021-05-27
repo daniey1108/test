@@ -1,13 +1,12 @@
 import React from "react";
 import * as R from 'ramda';
-import Routing from './Routing';
 
 import MenuIcon from '@material-ui/icons/Menu';
 import * as MaterialUi from '@material-ui/core';
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-import theme from './theme.jsx'
-
+import theme from './theme.jsx';
+import Routes from './Routes.jsx'
 const links = [
   {
     label: 'Home',
@@ -71,7 +70,6 @@ function App() {
             </MaterialUi.Typography>
           </MaterialUi.Toolbar>
         </MaterialUi.AppBar>
-        <Routing />
         <MaterialUi.BottomNavigation
           value={value}
           onChange={(newValue) => {
@@ -86,6 +84,7 @@ function App() {
                 label={link.label}/>
             ),links)}
         </MaterialUi.BottomNavigation>
+        <Routes />
         </MaterialUi.ThemeProvider>
       </header>
     </div>

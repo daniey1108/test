@@ -2,7 +2,7 @@ import React from "react";
 import * as R from "ramda";
 
 import * as MaterialUi from "@material-ui/core";
-import Game from "./Game";
+import Game from "./Game.jsx";
 
 export default function GameLayout() {
   const [score, setScore] = React.useState(null);

@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import About from "./pages/About";
-import Home from "./pages/Home";
-import MemoryGame from "./pages/Memory-Game";
+import About from "./pages/About.jsx";
+import Home from "./pages/Home.jsx";
+import MemoryGame from "./pages/Memory-Game.jsx";
 
-export default function Routing() {
+export default function Routes() {
   return (
     <Router>
       <Switch>

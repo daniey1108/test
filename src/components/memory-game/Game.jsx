@@ -7,7 +7,7 @@ export default function Game({ score, setScore, gameMode }) {
   const [gamePieces, setGamePieces] = React.useState([]);
 
   React.useEffect(() => {
-    if (gameMode == "easy") {
+    if (gameMode === "easy") {
       var singlePieces = R.dropLast(6, tiles);
       setGamePieces(R.concat(singlePieces, singlePieces));
     }

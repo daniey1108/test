@@ -1,7 +1,7 @@
 import React from "react";
 
 import * as MaterialUi from "@material-ui/core";
-import GameLayout from "../components/memory-game/Game-Layout";
+import GameLayout from "../components/memory-game/Game-Layout.jsx";
 
 export default function MemoryGame() {
   return (
