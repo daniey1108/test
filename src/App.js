@@ -51,7 +51,7 @@ function App() {
       <header className="App-header">
         <MaterialUi.ThemeProvider theme={theme}>
         <CssBaseline />
-        <MaterialUi.AppBar position="fixed">
+        <MaterialUi.AppBar position="static">
           <MaterialUi.Toolbar>
             <MaterialUi.IconButton color="inherit" aria-label="menu" onClick={handleClick}>
               <MenuIcon />

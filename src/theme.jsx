@@ -19,7 +19,7 @@ const theme = createMuiTheme({
     },
   },
   typography: {
-    fontSize: 12,
+    fontSize: 18,
     fontFamily: [
       '"Segoe UI"',
       "sans-serif",
