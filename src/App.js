@@ -1,4 +1,5 @@
 import React from "react";
+import * as R from 'ramda';
 import Routing from './Routing';
 
 import MenuIcon from '@material-ui/icons/Menu';
@@ -6,6 +7,33 @@ import * as MaterialUi from '@material-ui/core';
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 import theme from './theme.jsx'
+
+const links = [
+  {
+    label: 'Home',
+    href: '/'
+  },
+  {
+    label: 'About',
+    href: '/about'
+  },
+  {
+    label: 'Memory Game',
+    href: '/memory-game'
+  },
+  {
+    label: 'Github',
+    href: 'https://github.com/daniey1108'
+  },
+  {
+    label: 'Twitter',
+    href: 'https://twitter.com/daniallan111'
+  },
+  {
+    label: 'Linkedin',
+    href: 'https://www.linkedin.com/in/dallan1108/'
+  }
+];
 
 function App() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -23,7 +51,7 @@ function App() {
       <header className="App-header">
         <MaterialUi.ThemeProvider theme={theme}>
         <CssBaseline />
-        <MaterialUi.AppBar position="static">
+        <MaterialUi.AppBar position="fixed">
           <MaterialUi.Toolbar>
             <MaterialUi.IconButton color="inherit" aria-label="menu" onClick={handleClick}>
               <MenuIcon />
@@ -34,11 +62,9 @@ function App() {
               keepMounted
               open={Boolean(anchorEl)}
               onClose={handleClose}>
-                <MaterialUi.MenuItem component='a' href='/'>Home</MaterialUi.MenuItem>
-                <MaterialUi.MenuItem component='a' href='/About'>About</MaterialUi.MenuItem>
-                <MaterialUi.MenuItem component='a' href='https://github.com/daniey1108'>Github</MaterialUi.MenuItem>
-                <MaterialUi.MenuItem component='a' href='https://www.linkedin.com/in/dallan1108/'>Linkedin</MaterialUi.MenuItem>
-                <MaterialUi.MenuItem component='a' href='https://twitter.com/daniallan111'>Twitter</MaterialUi.MenuItem>
+                {R.map((link) => (
+                  <MaterialUi.MenuItem component="a" key={link.href} href={link.href}>{link.label}</MaterialUi.MenuItem>
+                ), links)}
             </MaterialUi.Menu>
             <MaterialUi.Typography variant="h6">
               Danielle Allan
@@ -52,8 +78,13 @@ function App() {
             setValue(newValue);
           }}
           showLabels>
-            <MaterialUi.BottomNavigationAction label="Home" component='a' href='/' />
-            <MaterialUi.BottomNavigationAction label="About" component='a' href='/About' />
+            {R.map((link) => (
+              <MaterialUi.BottomNavigationAction
+                key={`${link.href} + bottom nav`}
+                component='a'
+                href={link.href}
+                label={link.label}/>
+            ),links)}
         </MaterialUi.BottomNavigation>
         </MaterialUi.ThemeProvider>
       </header>
