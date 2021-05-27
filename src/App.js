@@ -37,7 +37,7 @@ const links = [
 
 function App() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(window.location.pathname);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
