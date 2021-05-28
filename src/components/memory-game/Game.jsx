@@ -12,6 +12,8 @@ export default function Game({ score, setScore, gameMode }) {
   const [gamePieces, setGamePieces] = React.useState([]);
 
   const handleFlip = (tile) => {
+    var flipLensProp = R.lensProp("flipped");
+    R.set(flipLensProp, true, tile);
     if (flippedTile1 == null && flippedTile2 == null) {
       setFlippedTile1(tile.title);
       console.log("flipping over the ...", tile.title, "tile1");
@@ -48,6 +50,13 @@ export default function Game({ score, setScore, gameMode }) {
       setGamePieces(
         tiles
           |> R.dropLast(6)
+          |> R.concat((tiles |> R.dropLast(6)))
+          |> R.sort(() => Math.random() - 0.5)
+      );
+    } else if (gameMode === "medium") {
+      setGamePieces(
+        tiles
+          |> R.dropLast(2)
           |> R.concat((tiles |> R.dropLast(6)))
           |> R.sort(() => Math.random() - 0.5)
       );

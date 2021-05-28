@@ -28,6 +28,14 @@ export default function GameLayout() {
             <MaterialUi.Button
               color="primary"
               variant="outlined"
+              onClick={() => setGameMode("medium")}
+              style={{ margin: "6px" }}
+            >
+              Medium
+            </MaterialUi.Button>
+            <MaterialUi.Button
+              color="primary"
+              variant="outlined"
               onClick={() => setGameMode("hard")}
               style={{ margin: "6px" }}
             >
