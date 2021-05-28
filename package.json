@@ -37,6 +37,7 @@
     "babel-loader": "^8.1.0",
     "html-webpack-plugin": "^4.5.0",
     "path": "^0.12.7",
+    "url-loader": "^4.1.1",
     "webpack": "^4.44.2",
     "webpack-cli": "^4.7.0",
     "webpack-dev-server": "^3.11.1"

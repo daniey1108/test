@@ -2,7 +2,6 @@ import React from "react";
 import * as R from "ramda";
 
 import * as MaterialUi from "@material-ui/core";
-import StarOutlineIcon from "@material-ui/icons/StarOutline";
 import GamePiece from "./Game-Piece.jsx";
 
 export default function Game({ score, setScore, gameMode }) {
@@ -39,6 +38,19 @@ export default function Game({ score, setScore, gameMode }) {
   }, [flippedTile2]);
 
   React.useEffect(() => {
+    if (gameMode === "easy" && score == 2) {
+      setScore(0);
+      console.log("you have won!");
+    } else if (gameMode === "medium" && score == 6) {
+      setScore(0);
+      console.log("you have won!");
+    } else if (gameMode === "hard" && score == 8) {
+      setScore(0);
+      console.log("you have won!");
+    }
+  }, [score]);
+
+  React.useEffect(() => {
     if (turnOver == true) {
       setFlippedTile1(null);
       setFlippedTile2(null);
@@ -58,7 +70,7 @@ export default function Game({ score, setScore, gameMode }) {
       setGamePieces(
         tiles
           |> R.dropLast(2)
-          |> R.concat((tiles |> R.dropLast(6)))
+          |> R.concat((tiles |> R.dropLast(2)))
           |> R.sort(() => Math.random() - 0.5)
       );
     } else if (gameMode === "hard") {
@@ -93,42 +105,50 @@ export default function Game({ score, setScore, gameMode }) {
 
 const tiles = [
   {
-    color: "#000000",
+    id: "gametile1",
+    altText: "Castiel Cat",
     title: "blackTile",
     flipped: false,
   },
   {
-    color: "#FFFFFF",
+    id: "gametile2",
+    altText: "Crowley with a Hat",
     title: "whiteTile",
     flipped: false,
   },
   {
-    color: "#FF0000",
+    id: "gametile3",
+    altText: "Crowley and Castiel following Pizza",
     title: "redTile",
     flipped: false,
   },
   {
-    color: "#00FF00",
+    id: "gametile4",
+    altText: "Crowley and Castiel Cuddling",
     title: "greenTile",
     flipped: false,
   },
   {
-    color: "#800080",
+    id: "gametile5",
+    altText: "Crowley and Castiel cuddling",
     title: "purpleTile",
     flipped: false,
   },
   {
-    color: "#FFA500",
+    id: "gametile6",
+    altText: "Crowley with Easter Bunny Ears",
     title: "orangeTile",
     flipped: false,
   },
   {
-    color: "#FFFF00",
+    id: "gametile7",
+    altText: "Castiel looking off in space",
     title: "yellowTile",
     flipped: false,
   },
   {
-    color: "#0000FF",
+    id: "gametile8",
+    altText: "Crowley and Castiel Cuddling",
     title: "blueTile",
     flipped: false,
   },
