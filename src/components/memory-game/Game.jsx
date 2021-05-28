@@ -3,6 +3,7 @@ import * as R from "ramda";
 
 import * as MaterialUi from "@material-ui/core";
 import StarOutlineIcon from "@material-ui/icons/StarOutline";
+import GamePiece from "./Game-Piece.jsx";
 
 export default function Game({ score, setScore, gameMode }) {
   const mapWithIndex = R.addIndex(R.map);
@@ -77,20 +78,11 @@ export default function Game({ score, setScore, gameMode }) {
           <MaterialUi.Grid container spacing={2}>
             {gamePieces
               |> mapWithIndex((tile, index) => (
-                <MaterialUi.Grid key={index} item xs={3}>
-                  <MaterialUi.Button
-                    variant="contained"
-                    onClick={() => handleFlip(tile)}
-                    size="large"
-                    style={{ minHeight: "150px", minWidth: "200px" }}
-                  >
-                    {tile.flipped ? (
-                      <StarOutlineIcon color="disabled" />
-                    ) : (
-                      <StarOutlineIcon />
-                    )}
-                  </MaterialUi.Button>
-                </MaterialUi.Grid>
+                <GamePiece
+                  tile={tile}
+                  handleFlip={() => handleFlip(tile)}
+                  key={index}
+                />
               ))}
           </MaterialUi.Grid>
         </MaterialUi.Box>
