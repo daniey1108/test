@@ -9,6 +9,7 @@ export default function Game({ score, setScore, gameMode }) {
   const [turnOver, setTurnOver] = React.useState(false);
   const [flippedTile1, setFlippedTile1] = React.useState(null);
   const [flippedTile2, setFlippedTile2] = React.useState(null);
+  const [gamePieces, setGamePieces] = React.useState([]);
 
   const handleFlip = (tile) => {
     if (flippedTile1 == null && flippedTile2 == null) {
@@ -42,64 +43,48 @@ export default function Game({ score, setScore, gameMode }) {
     }
   }, [turnOver]);
 
+  React.useEffect(() => {
+    if (gameMode === "easy") {
+      setGamePieces(
+        tiles
+          |> R.dropLast(6)
+          |> R.concat((tiles |> R.dropLast(6)))
+          |> R.sort(() => Math.random() - 0.5)
+      );
+    } else if (gameMode === "hard") {
+      setGamePieces(
+        tiles |> R.concat(tiles) |> R.sort(() => Math.random() - 0.5)
+      );
+    }
+  }, [gameMode]);
+
   return (
     <>
       <MaterialUi.Box>
-        {gameMode === "easy" && (
-          <>
-            <MaterialUi.Typography>Easy Mode!</MaterialUi.Typography>
-            <MaterialUi.Box padding={2} bgcolor="#2286c3">
-              <MaterialUi.Grid
-                container
-                spacing={2}
-                alignContent="space-between"
-                justify="center"
-                alignItems="center"
-              >
-                {tiles
-                  |> R.dropLast(6)
-                  |> R.concat((tiles |> R.dropLast(6)))
-                  |> mapWithIndex((tile, index) => (
-                    <MaterialUi.Grid key={index} item xs={3}>
-                      <MaterialUi.Button
-                        variant="contained"
-                        onClick={() => handleFlip(tile)}
-                      >
-                        <StarOutlineIcon />
-                      </MaterialUi.Button>
-                    </MaterialUi.Grid>
-                  ))}
-              </MaterialUi.Grid>
-            </MaterialUi.Box>
-          </>
-        )}
-        {gameMode === "hard" && (
-          <>
-            <MaterialUi.Typography>Hard Mode!</MaterialUi.Typography>
-            <MaterialUi.Box padding={2} bgcolor="#2286c3">
-              <MaterialUi.Grid
-                container
-                spacing={2}
-                alignContent="space-between"
-                justify="center"
-                alignItems="center"
-              >
-                {tiles
-                  |> R.concat(tiles)
-                  |> mapWithIndex((tile, index) => (
-                    <MaterialUi.Grid key={index} item xs={3}>
-                      <MaterialUi.Button
-                        variant="contained"
-                        onClick={() => handleFlip(tile)}
-                      >
-                        <StarOutlineIcon />
-                      </MaterialUi.Button>
-                    </MaterialUi.Grid>
-                  ))}
-              </MaterialUi.Grid>
-            </MaterialUi.Box>
-          </>
-        )}
+        <MaterialUi.Typography>{`${
+          gameMode |> R.toUpper
+        } MODE!`}</MaterialUi.Typography>
+        <MaterialUi.Box padding={2} bgcolor="#2286c3">
+          <MaterialUi.Grid container spacing={2}>
+            {gamePieces
+              |> mapWithIndex((tile, index) => (
+                <MaterialUi.Grid key={index} item xs={3}>
+                  <MaterialUi.Button
+                    variant="contained"
+                    onClick={() => handleFlip(tile)}
+                    size="large"
+                    style={{ minHeight: "150px", minWidth: "200px" }}
+                  >
+                    {tile.flipped ? (
+                      <StarOutlineIcon color="disabled" />
+                    ) : (
+                      <StarOutlineIcon />
+                    )}
+                  </MaterialUi.Button>
+                </MaterialUi.Grid>
+              ))}
+          </MaterialUi.Grid>
+        </MaterialUi.Box>
       </MaterialUi.Box>
     </>
   );
@@ -109,33 +94,41 @@ const tiles = [
   {
     color: "#000000",
     title: "blackTile",
+    flipped: false,
   },
   {
     color: "#FFFFFF",
     title: "whiteTile",
+    flipped: false,
   },
   {
     color: "#FF0000",
     title: "redTile",
+    flipped: false,
   },
   {
     color: "#00FF00",
     title: "greenTile",
+    flipped: false,
   },
   {
     color: "#800080",
     title: "purpleTile",
+    flipped: false,
   },
   {
     color: "#FFA500",
     title: "orangeTile",
+    flipped: false,
   },
   {
     color: "#FFFF00",
     title: "yellowTile",
+    flipped: false,
   },
   {
     color: "#0000FF",
     title: "blueTile",
+    flipped: false,
   },
 ];

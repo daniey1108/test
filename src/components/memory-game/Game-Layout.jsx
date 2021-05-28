@@ -6,25 +6,36 @@ import Game from "./Game.jsx";
 
 export default function GameLayout() {
   const [score, setScore] = React.useState(null);
+  const [gameMode, setGameMode] = React.useState("");
+
   return (
     <>
       <MaterialUi.Box padding={2}>
-        {R.isNil(score) ? (
+        {R.isEmpty(gameMode) ? (
           <MaterialUi.Box textAlign="center">
             <MaterialUi.Typography>
-              Do you want to start a new game?
+              Please Select a Game Mode to Start a New Game!
             </MaterialUi.Typography>
             <br />
             <MaterialUi.Button
               color="primary"
-              variant="contained"
-              onClick={() => setScore(0)}
+              variant="outlined"
+              onClick={() => setGameMode("easy")}
+              style={{ margin: "6px" }}
             >
-              Start!
+              Easy
+            </MaterialUi.Button>
+            <MaterialUi.Button
+              color="primary"
+              variant="outlined"
+              onClick={() => setGameMode("hard")}
+              style={{ margin: "6px" }}
+            >
+              Hard
             </MaterialUi.Button>
           </MaterialUi.Box>
         ) : (
-          <Game score={score} setScore={setScore} gameMode="hard" />
+          <Game score={score} setScore={setScore} gameMode={gameMode} />
         )}
       </MaterialUi.Box>
     </>
