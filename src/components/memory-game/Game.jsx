@@ -2,31 +2,104 @@ import React from "react";
 import * as R from "ramda";
 
 import * as MaterialUi from "@material-ui/core";
+import StarOutlineIcon from "@material-ui/icons/StarOutline";
 
 export default function Game({ score, setScore, gameMode }) {
-  const [gamePieces, setGamePieces] = React.useState([]);
+  const mapWithIndex = R.addIndex(R.map);
+  const [turnOver, setTurnOver] = React.useState(false);
+  const [flippedTile1, setFlippedTile1] = React.useState(null);
+  const [flippedTile2, setFlippedTile2] = React.useState(null);
+
+  const handleFlip = (tile) => {
+    if (flippedTile1 == null && flippedTile2 == null) {
+      setFlippedTile1(tile.title);
+      console.log("flipping over the ...", tile.title, "tile1");
+    }
+    if (flippedTile1 != null && flippedTile2 == null) {
+      setFlippedTile2(tile.title);
+      console.log("flipping over the ...", tile.title, "tile2");
+    }
+  };
 
   React.useEffect(() => {
-    if (gameMode === "easy") {
-      var singlePieces = R.dropLast(6, tiles);
-      setGamePieces(R.concat(singlePieces, singlePieces));
+    if (flippedTile1 != null && flippedTile2 != null) {
+      setTurnOver(true);
+      if (flippedTile1 === flippedTile2) {
+        console.log("you got a match");
+        setScore(score |> R.add(1));
+        console.log("score:", score |> R.add(1));
+      } else {
+        console.log("you did not get a match");
+      }
     }
-  }, gameMode);
+  }, [flippedTile2]);
+
+  React.useEffect(() => {
+    if (turnOver == true) {
+      setFlippedTile1(null);
+      setFlippedTile2(null);
+      setTurnOver(false);
+    }
+  }, [turnOver]);
+
   return (
     <>
-      <MaterialUi.Box padding={2} bgcolor="#2286c3">
-        <MaterialUi.Grid container spacing={2}>
-          {R.map(
-            (tile) => (
-              <MaterialUi.Grid key={tile.title} item xs={3}>
-                <MaterialUi.Button variant="contained">
-                  {tile.title}
-                </MaterialUi.Button>
+      <MaterialUi.Box>
+        {gameMode === "easy" && (
+          <>
+            <MaterialUi.Typography>Easy Mode!</MaterialUi.Typography>
+            <MaterialUi.Box padding={2} bgcolor="#2286c3">
+              <MaterialUi.Grid
+                container
+                spacing={2}
+                alignContent="space-between"
+                justify="center"
+                alignItems="center"
+              >
+                {tiles
+                  |> R.dropLast(6)
+                  |> R.concat((tiles |> R.dropLast(6)))
+                  |> mapWithIndex((tile, index) => (
+                    <MaterialUi.Grid key={index} item xs={3}>
+                      <MaterialUi.Button
+                        variant="contained"
+                        onClick={() => handleFlip(tile)}
+                      >
+                        <StarOutlineIcon />
+                      </MaterialUi.Button>
+                    </MaterialUi.Grid>
+                  ))}
               </MaterialUi.Grid>
-            ),
-            gamePieces
-          )}
-        </MaterialUi.Grid>
+            </MaterialUi.Box>
+          </>
+        )}
+        {gameMode === "hard" && (
+          <>
+            <MaterialUi.Typography>Hard Mode!</MaterialUi.Typography>
+            <MaterialUi.Box padding={2} bgcolor="#2286c3">
+              <MaterialUi.Grid
+                container
+                spacing={2}
+                alignContent="space-between"
+                justify="center"
+                alignItems="center"
+              >
+                {tiles
+                  |> R.concat(tiles)
+                  |> mapWithIndex((tile, index) => (
+                    <MaterialUi.Grid key={index} item xs={3}>
+                      <MaterialUi.Button
+                        variant="contained"
+                        onClick={() => handleFlip(tile)}
+                      >
+                        <StarOutlineIcon />
+                      </MaterialUi.Button>
+                    </MaterialUi.Grid>
+                  ))}
+              </MaterialUi.Grid>
+            </MaterialUi.Box>
+          </>
+        )}
       </MaterialUi.Box>
     </>
   );

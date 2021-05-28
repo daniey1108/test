@@ -24,9 +24,7 @@ export default function GameLayout() {
             </MaterialUi.Button>
           </MaterialUi.Box>
         ) : (
-          <MaterialUi.Typography>
-            <Game score={score} setScore={setScore} gameMode="easy" />
-          </MaterialUi.Typography>
+          <Game score={score} setScore={setScore} gameMode="hard" />
         )}
       </MaterialUi.Box>
     </>

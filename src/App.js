@@ -70,6 +70,7 @@ function App() {
             </MaterialUi.Typography>
           </MaterialUi.Toolbar>
         </MaterialUi.AppBar>
+        <Routes />
         <MaterialUi.BottomNavigation
           value={value}
           onChange={(newValue) => {
@@ -84,7 +85,6 @@ function App() {
                 label={link.label}/>
             ),links)}
         </MaterialUi.BottomNavigation>
-        <Routes />
         </MaterialUi.ThemeProvider>
       </header>
     </div>
