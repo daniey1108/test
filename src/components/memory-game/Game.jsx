@@ -10,16 +10,16 @@ export default function Game({ score, setScore, gameMode }) {
   const [flippedCard1, setFlippedCard1] = React.useState(null);
   const [flippedCard2, setFlippedCard2] = React.useState(null);
   const [gameCards, setGameCards] = React.useState([]);
+  const [solvedCards, setSolvedCards] = React.useState([]);
 
   const handleFlip = (currentCard) => {
-    var flipLensProp = R.lensProp("flipped");
-    R.set(flipLensProp, true, currentCard);
     if (flippedCard1 == null && flippedCard2 == null) {
-      setFlippedCard1(currentCard.title);
+      setFlippedCard1(currentCard);
+      console.log("flipping over the ...", currentCard.altText, "card1");
     }
     if (flippedCard1 != null && flippedCard2 == null) {
-      setFlippedCard2(currentCard.title);
-      console.log("flipping over the ...", currentCard.title, "card2");
+      setFlippedCard2(currentCard);
+      console.log("flipping over the ...", currentCard.altText, "card2");
     }
   };
 
@@ -29,6 +29,7 @@ export default function Game({ score, setScore, gameMode }) {
       if (flippedCard1 === flippedCard2) {
         console.log("you got a match");
         setScore(score |> R.add(1));
+        setSolvedCards(solvedCards |> R.append(flippedCard1.id));
         console.log("score:", score |> R.add(1));
       } else {
         console.log("you did not get a match");
@@ -97,7 +98,9 @@ export default function Game({ score, setScore, gameMode }) {
                 <Card
                   currentCard={currentCard}
                   handleFlip={() => handleFlip(currentCard)}
+                  id={index}
                   key={index}
+                  solvedCards={solvedCards}
                 />
               ))}
           </MaterialUi.Grid>
@@ -111,49 +114,33 @@ const cards = [
   {
     id: "gameCard1",
     altText: "Castiel Cat",
-    title: "blackTile",
-    flipped: false,
   },
   {
     id: "gameCard2",
     altText: "Crowley with a Hat",
-    title: "whiteTile",
-    flipped: false,
   },
   {
     id: "gameCard3",
     altText: "Crowley and Castiel following Pizza",
-    title: "redTile",
-    flipped: false,
   },
   {
     id: "gameCard4",
     altText: "Crowley and Castiel Cuddling",
-    title: "greenTile",
-    flipped: false,
   },
   {
     id: "gameCard5",
     altText: "Crowley and Castiel cuddling",
-    title: "purpleTile",
-    flipped: false,
   },
   {
     id: "gameCard6",
     altText: "Crowley with Easter Bunny Ears",
-    title: "orangeTile",
-    flipped: false,
   },
   {
     id: "gameCard7",
     altText: "Castiel looking off in space",
-    title: "yellowTile",
-    flipped: false,
   },
   {
     id: "gameCard8",
     altText: "Crowley and Castiel Cuddling",
-    title: "blueTile",
-    flipped: false,
   },
 ];

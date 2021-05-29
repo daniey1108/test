@@ -24,9 +24,14 @@ const flippedImage = R.cond([
   [R.equals("gameCard8"), R.always(gameCard8)],
 ]);
 
-export default function Card({ currentCard, handleFlip }) {
-  const [flipped, setFlipped] = React.useState(currentCard.flipped);
+export default function Card({ currentCard, handleFlip, solvedCards }) {
+  //should my card be displayed faceUp or faceDown
+  //is my id anywhere in solvedCards as the index, if yes, Im flipped,
+  // if no i should be facedown (flipped == false)
 
+  const [flipped, setFlipped] = React.useState(
+    R.includes(currentCard.id, solvedCards)
+  );
   const flip = () => {
     setFlipped(true);
   };
@@ -43,6 +48,10 @@ export default function Card({ currentCard, handleFlip }) {
                 component="img"
                 image={currentCard.id |> flippedImage}
                 alt={currentCard.altText}
+                onClick={() => {
+                  handleFlip();
+                  flip();
+                }}
                 style={{ height: "134px" }}
               />
             ) : (
