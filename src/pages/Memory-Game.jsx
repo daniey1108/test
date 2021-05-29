@@ -1,7 +1,7 @@
 import React from "react";
 
 import * as MaterialUi from "@material-ui/core";
-import GameLayout from "../components/memory-game/Game-Layout.jsx";
+import GameSetup from "../components/memory-game/GameSetup.jsx";
 
 export default function MemoryGame() {
   return (
@@ -10,7 +10,7 @@ export default function MemoryGame() {
         <MaterialUi.Card>
           <MaterialUi.CardHeader title="Memory Game"></MaterialUi.CardHeader>
           <MaterialUi.CardContent>
-            <GameLayout />
+            <GameSetup />
           </MaterialUi.CardContent>
         </MaterialUi.Card>
       </MaterialUi.Box>

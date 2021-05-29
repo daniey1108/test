@@ -4,7 +4,7 @@ import * as R from "ramda";
 import * as MaterialUi from "@material-ui/core";
 import Game from "./Game.jsx";
 
-export default function GameLayout() {
+export default function GameSetup() {
   const [score, setScore] = React.useState(null);
   const [gameMode, setGameMode] = React.useState("");
 

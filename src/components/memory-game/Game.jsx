@@ -2,32 +2,32 @@ import React from "react";
 import * as R from "ramda";
 
 import * as MaterialUi from "@material-ui/core";
-import GamePiece from "./Game-Piece.jsx";
+import Card from "./Card.jsx";
 
 export default function Game({ score, setScore, gameMode }) {
   const mapWithIndex = R.addIndex(R.map);
   const [turnOver, setTurnOver] = React.useState(false);
-  const [flippedTile1, setFlippedTile1] = React.useState(null);
-  const [flippedTile2, setFlippedTile2] = React.useState(null);
-  const [gamePieces, setGamePieces] = React.useState([]);
+  const [flippedCard1, setFlippedCard1] = React.useState(null);
+  const [flippedCard2, setFlippedCard2] = React.useState(null);
+  const [gameCards, setGameCards] = React.useState([]);
 
-  const handleFlip = (tile) => {
+  const handleFlip = (currentCard) => {
     var flipLensProp = R.lensProp("flipped");
-    R.set(flipLensProp, true, tile);
-    if (flippedTile1 == null && flippedTile2 == null) {
-      setFlippedTile1(tile.title);
-      console.log("flipping over the ...", tile.title, "tile1");
+    R.set(flipLensProp, true, currentCard);
+    if (flippedCard1 == null && flippedCard2 == null) {
+      setFlippedCard1(currentCard.title);
+      console.log("flipping over the ...", currentCard.title, "card1");
     }
-    if (flippedTile1 != null && flippedTile2 == null) {
-      setFlippedTile2(tile.title);
-      console.log("flipping over the ...", tile.title, "tile2");
+    if (flippedCard1 != null && flippedCard2 == null) {
+      setFlippedCard2(currentCard.title);
+      console.log("flipping over the ...", currentCard.title, "card2");
     }
   };
 
   React.useEffect(() => {
-    if (flippedTile1 != null && flippedTile2 != null) {
+    if (flippedCard1 != null && flippedCard2 != null) {
       setTurnOver(true);
-      if (flippedTile1 === flippedTile2) {
+      if (flippedCard1 === flippedCard2) {
         console.log("you got a match");
         setScore(score |> R.add(1));
         console.log("score:", score |> R.add(1));
@@ -35,7 +35,7 @@ export default function Game({ score, setScore, gameMode }) {
         console.log("you did not get a match");
       }
     }
-  }, [flippedTile2]);
+  }, [flippedCard2]);
 
   React.useEffect(() => {
     if (gameMode === "easy" && score == 2) {
@@ -52,30 +52,30 @@ export default function Game({ score, setScore, gameMode }) {
 
   React.useEffect(() => {
     if (turnOver == true) {
-      setFlippedTile1(null);
-      setFlippedTile2(null);
+      setFlippedCard1(null);
+      setFlippedCard2(null);
       setTurnOver(false);
     }
   }, [turnOver]);
 
   React.useEffect(() => {
     if (gameMode === "easy") {
-      setGamePieces(
-        tiles
+      setGameCards(
+        cards
           |> R.dropLast(6)
-          |> R.concat((tiles |> R.dropLast(6)))
+          |> R.concat((cards |> R.dropLast(6)))
           |> R.sort(() => Math.random() - 0.5)
       );
     } else if (gameMode === "medium") {
-      setGamePieces(
-        tiles
+      setGameCards(
+        cards
           |> R.dropLast(2)
-          |> R.concat((tiles |> R.dropLast(2)))
+          |> R.concat((cards |> R.dropLast(2)))
           |> R.sort(() => Math.random() - 0.5)
       );
     } else if (gameMode === "hard") {
-      setGamePieces(
-        tiles |> R.concat(tiles) |> R.sort(() => Math.random() - 0.5)
+      setGameCards(
+        cards |> R.concat(cards) |> R.sort(() => Math.random() - 0.5)
       );
     }
   }, [gameMode]);
@@ -88,11 +88,11 @@ export default function Game({ score, setScore, gameMode }) {
         } MODE!`}</MaterialUi.Typography>
         <MaterialUi.Box padding={2} bgcolor="#2286c3">
           <MaterialUi.Grid container spacing={2}>
-            {gamePieces
-              |> mapWithIndex((tile, index) => (
-                <GamePiece
-                  tile={tile}
-                  handleFlip={() => handleFlip(tile)}
+            {gameCards
+              |> mapWithIndex((currentCard, index) => (
+                <Card
+                  currentCard={currentCard}
+                  handleFlip={() => handleFlip(currentCard)}
                   key={index}
                 />
               ))}
@@ -103,51 +103,51 @@ export default function Game({ score, setScore, gameMode }) {
   );
 }
 
-const tiles = [
+const cards = [
   {
-    id: "gametile1",
+    id: "gameCard1",
     altText: "Castiel Cat",
     title: "blackTile",
     flipped: false,
   },
   {
-    id: "gametile2",
+    id: "gameCard2",
     altText: "Crowley with a Hat",
     title: "whiteTile",
     flipped: false,
   },
   {
-    id: "gametile3",
+    id: "gameCard3",
     altText: "Crowley and Castiel following Pizza",
     title: "redTile",
     flipped: false,
   },
   {
-    id: "gametile4",
+    id: "gameCard4",
     altText: "Crowley and Castiel Cuddling",
     title: "greenTile",
     flipped: false,
   },
   {
-    id: "gametile5",
+    id: "gameCard5",
     altText: "Crowley and Castiel cuddling",
     title: "purpleTile",
     flipped: false,
   },
   {
-    id: "gametile6",
+    id: "gameCard6",
     altText: "Crowley with Easter Bunny Ears",
     title: "orangeTile",
     flipped: false,
   },
   {
-    id: "gametile7",
+    id: "gameCard7",
     altText: "Castiel looking off in space",
     title: "yellowTile",
     flipped: false,
   },
   {
-    id: "gametile8",
+    id: "gameCard8",
     altText: "Crowley and Castiel Cuddling",
     title: "blueTile",
     flipped: false,
