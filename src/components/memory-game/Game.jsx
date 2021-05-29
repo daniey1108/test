@@ -101,6 +101,7 @@ export default function Game({ score, setScore, gameMode }) {
                   id={index}
                   key={index}
                   solvedCards={solvedCards}
+                  roundOver={roundOver}
                 />
               ))}
           </MaterialUi.Grid>
