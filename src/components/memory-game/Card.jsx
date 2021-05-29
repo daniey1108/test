@@ -11,6 +11,7 @@ import gameCard5 from "../../images/gameCard5.jpg";
 import gameCard6 from "../../images/gameCard6.PNG";
 import gameCard7 from "../../images/gameCard7.jpg";
 import gameCard8 from "../../images/gameCard8.jpg";
+import gameDefault from "../../images/gameDefault.jpg";
 
 const flippedImage = R.cond([
   [R.equals("gameCard1"), R.always(gameCard1)],
@@ -37,15 +38,23 @@ export default function Card({ currentCard, handleFlip }) {
           style={{ minHeight: "150px", minWidth: "200px" }}
         >
           <MaterialUi.CardContent>
-            <MaterialUi.CardMedia
-              component="img"
-              image={currentCard.id |> flippedImage}
-              alt={currentCard.altText}
-              onClick={() => {
-                handleFlip();
-                flip();
-              }}
-            />
+            {flipped ? (
+              <MaterialUi.CardMedia
+                component="img"
+                image={currentCard.id |> flippedImage}
+                alt={currentCard.altText}
+              />
+            ) : (
+              <MaterialUi.CardMedia
+                component="img"
+                image={gameDefault}
+                alt="Flip me over to see what card I am"
+                onClick={() => {
+                  handleFlip();
+                  flip();
+                }}
+              />
+            )}
           </MaterialUi.CardContent>
         </MaterialUi.Card>
       </MaterialUi.Grid>
