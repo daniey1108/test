@@ -5,8 +5,13 @@ import * as MaterialUi from "@material-ui/core";
 import Game from "./Game.jsx";
 
 export default function GameSetup() {
-  const [score, setScore] = React.useState(null);
+  const [score, setScore] = React.useState("");
   const [gameMode, setGameMode] = React.useState("");
+
+  const startOver = () => {
+    setScore("");
+    setGameMode("");
+  };
 
   return (
     <>
@@ -43,7 +48,39 @@ export default function GameSetup() {
             </MaterialUi.Button>
           </MaterialUi.Box>
         ) : (
-          <Game score={score} setScore={setScore} gameMode={gameMode} />
+          <MaterialUi.Box>
+            <MaterialUi.Box
+              display="flex"
+              alignContent="center"
+              justifyContent="center"
+              padding={2}
+            >
+              <MaterialUi.Typography>
+                {`You are playing on ${gameMode}! Good Luck!`}
+              </MaterialUi.Typography>
+            </MaterialUi.Box>
+            <MaterialUi.Box
+              display="flex"
+              alignContent="center"
+              justifyContent="space-between"
+              padding={2}
+            >
+              <MaterialUi.Typography>{`Score: ${score}`}</MaterialUi.Typography>
+              <MaterialUi.Button
+                variant="outlined"
+                onClick={startOver}
+                size="small"
+              >
+                Start Over
+              </MaterialUi.Button>
+            </MaterialUi.Box>
+            <Game
+              score={score}
+              setScore={setScore}
+              gameMode={gameMode}
+              reset={startOver}
+            />
+          </MaterialUi.Box>
         )}
       </MaterialUi.Box>
     </>

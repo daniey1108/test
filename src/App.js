@@ -4,6 +4,7 @@ import * as R from 'ramda';
 import MenuIcon from '@material-ui/icons/Menu';
 import * as MaterialUi from '@material-ui/core';
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { SnackbarProvider } from 'notistack';
 
 import theme from './theme.jsx';
 import Routes from './Routes.jsx'
@@ -49,6 +50,12 @@ function App() {
     <div className="App">
       <header className="App-header">
         <MaterialUi.ThemeProvider theme={theme}>
+        <SnackbarProvider
+          maxSnack={1}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+        }}>
         <CssBaseline />
         <MaterialUi.AppBar position="static">
           <MaterialUi.Toolbar>
@@ -85,6 +92,7 @@ function App() {
                 label={link.label}/>
             ),links)}
         </MaterialUi.BottomNavigation>
+        </SnackbarProvider>
         </MaterialUi.ThemeProvider>
       </header>
     </div>

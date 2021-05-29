@@ -1,16 +1,29 @@
 import React from "react";
 import * as R from "ramda";
+import { useSnackbar } from "notistack";
 
 import * as MaterialUi from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
 import Card from "./Card.jsx";
 
-export default function Game({ score, setScore, gameMode }) {
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
+}));
+
+export default function Game({ score, setScore, gameMode, reset }) {
+  const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
   const mapWithIndex = R.addIndex(R.map);
   const [roundOver, setRoundOver] = React.useState(false);
   const [flippedCard1, setFlippedCard1] = React.useState(null);
   const [flippedCard2, setFlippedCard2] = React.useState(null);
   const [gameCards, setGameCards] = React.useState([]);
   const [solvedCards, setSolvedCards] = React.useState([]);
+  const [gameOver, setGameOver] = React.useState(false);
 
   const handleFlip = (currentCard) => {
     if (flippedCard1 == null && flippedCard2 == null) {
@@ -27,25 +40,27 @@ export default function Game({ score, setScore, gameMode }) {
     if (flippedCard1 != null && flippedCard2 != null) {
       setRoundOver(true);
       if (flippedCard1 === flippedCard2) {
-        console.log("you got a match");
+        enqueueSnackbar("You got a match!", { variant: "success" });
         setScore(score |> R.add(1));
         setSolvedCards(solvedCards |> R.append(flippedCard1.id));
-        console.log("score:", score |> R.add(1));
       } else {
-        console.log("you did not get a match");
+        enqueueSnackbar("You didn't get a match!", { variant: "warning" });
       }
     }
   }, [flippedCard2]);
 
   React.useEffect(() => {
     if (gameMode === "easy" && score == 2) {
-      setScore(0);
+      setScore("");
+      setGameOver(true);
       console.log("you have won!");
     } else if (gameMode === "medium" && score == 6) {
-      setScore(0);
+      setGameOver(true);
+      setScore("");
       console.log("you have won!");
     } else if (gameMode === "hard" && score == 8) {
-      setScore(0);
+      setGameOver(true);
+      setScore("");
       console.log("you have won!");
     }
   }, [score]);
@@ -80,33 +95,40 @@ export default function Game({ score, setScore, gameMode }) {
     }
   }, [gameMode]);
 
+  const gameOverCleanUp = () => {
+    setGameOver(false);
+    reset();
+  };
+
   return (
     <>
-      <MaterialUi.Box>
-        <MaterialUi.Typography>{`${
-          gameMode |> R.toUpper
-        } MODE!`}</MaterialUi.Typography>
-        <MaterialUi.Box padding={2} bgcolor="#2286c3">
-          <MaterialUi.Grid
-            container
-            spacing={4}
-            justify="space-between"
-            alignItems="center"
-          >
-            {gameCards
-              |> mapWithIndex((currentCard, index) => (
-                <Card
-                  currentCard={currentCard}
-                  handleFlip={() => handleFlip(currentCard)}
-                  id={index}
-                  key={index}
-                  solvedCards={solvedCards}
-                  roundOver={roundOver}
-                />
-              ))}
-          </MaterialUi.Grid>
-        </MaterialUi.Box>
+      <MaterialUi.Box padding={2} bgcolor="#2286c3">
+        <MaterialUi.Grid
+          container
+          spacing={4}
+          justify="space-between"
+          alignItems="center"
+        >
+          {gameCards
+            |> mapWithIndex((currentCard, index) => (
+              <Card
+                currentCard={currentCard}
+                handleFlip={() => handleFlip(currentCard)}
+                id={index}
+                key={index}
+                solvedCards={solvedCards}
+                roundOver={roundOver}
+              />
+            ))}
+        </MaterialUi.Grid>
       </MaterialUi.Box>
+      <MaterialUi.Backdrop
+        className={classes.backdrop}
+        open={gameOver}
+        onClick={() => gameOverCleanUp()}
+      >
+        <MaterialUi.Typography>{`You did it You won!`}</MaterialUi.Typography>
+      </MaterialUi.Backdrop>
     </>
   );
 }

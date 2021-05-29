@@ -30,9 +30,6 @@ export default function Card({
   solvedCards,
   roundOver,
 }) {
-  //should my card be displayed faceUp or faceDown
-  //is my id anywhere in solvedCards as the index, if yes, Im flipped,
-  // if no i should be facedown (flipped == false)
   const [flipped, setFlipped] = React.useState(false);
 
   React.useEffect(() => {
