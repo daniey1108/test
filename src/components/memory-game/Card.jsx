@@ -35,14 +35,15 @@ export default function Card({ currentCard, handleFlip }) {
       <MaterialUi.Grid item md={3} xs={12}>
         <MaterialUi.Card
           variant="elevation"
-          style={{ minHeight: "150px", minWidth: "200px" }}
+          style={{ height: "150px", width: "200px" }}
         >
-          <MaterialUi.CardContent>
+          <MaterialUi.CardContent style={{ padding: "8px" }}>
             {flipped ? (
               <MaterialUi.CardMedia
                 component="img"
                 image={currentCard.id |> flippedImage}
                 alt={currentCard.altText}
+                style={{ height: "134px" }}
               />
             ) : (
               <MaterialUi.CardMedia
@@ -53,6 +54,7 @@ export default function Card({ currentCard, handleFlip }) {
                   handleFlip();
                   flip();
                 }}
+                style={{ height: "134px" }}
               />
             )}
           </MaterialUi.CardContent>

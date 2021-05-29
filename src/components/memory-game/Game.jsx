@@ -86,7 +86,12 @@ export default function Game({ score, setScore, gameMode }) {
           gameMode |> R.toUpper
         } MODE!`}</MaterialUi.Typography>
         <MaterialUi.Box padding={2} bgcolor="#2286c3">
-          <MaterialUi.Grid container spacing={2}>
+          <MaterialUi.Grid
+            container
+            spacing={4}
+            justify="space-between"
+            alignItems="center"
+          >
             {gameCards
               |> mapWithIndex((currentCard, index) => (
                 <Card
