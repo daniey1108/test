@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import About from "./pages/About.jsx";
 import Home from "./pages/Home.jsx";
-import MemoryGame from "./pages/Memory-Game.jsx";
+import MemoryGame from "./pages/MemoryGame.jsx";
 
 export default function Routes() {
   return (
