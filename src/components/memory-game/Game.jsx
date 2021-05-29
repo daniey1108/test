@@ -6,7 +6,7 @@ import Card from "./Card.jsx";
 
 export default function Game({ score, setScore, gameMode }) {
   const mapWithIndex = R.addIndex(R.map);
-  const [gameOver, setGameOver] = React.useState(false);
+  const [roundOver, setRoundOver] = React.useState(false);
   const [flippedCard1, setFlippedCard1] = React.useState(null);
   const [flippedCard2, setFlippedCard2] = React.useState(null);
   const [gameCards, setGameCards] = React.useState([]);
@@ -25,7 +25,7 @@ export default function Game({ score, setScore, gameMode }) {
 
   React.useEffect(() => {
     if (flippedCard1 != null && flippedCard2 != null) {
-      setGameOver(true);
+      setRoundOver(true);
       if (flippedCard1 === flippedCard2) {
         console.log("you got a match");
         setScore(score |> R.add(1));
@@ -51,12 +51,12 @@ export default function Game({ score, setScore, gameMode }) {
   }, [score]);
 
   React.useEffect(() => {
-    if (gameOver == true) {
+    if (roundOver == true) {
       setFlippedCard1(null);
       setFlippedCard2(null);
-      setGameOver(false);
+      setRoundOver(false);
     }
-  }, [gameOver]);
+  }, [roundOver]);
 
   React.useEffect(() => {
     if (gameMode === "easy") {

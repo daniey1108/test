@@ -28,10 +28,12 @@ export default function Card({ currentCard, handleFlip, solvedCards }) {
   //should my card be displayed faceUp or faceDown
   //is my id anywhere in solvedCards as the index, if yes, Im flipped,
   // if no i should be facedown (flipped == false)
+  const [flipped, setFlipped] = React.useState(false);
 
-  const [flipped, setFlipped] = React.useState(
-    R.includes(currentCard.id, solvedCards)
-  );
+  React.useEffect(() => {
+    setFlipped(R.includes(currentCard.id, solvedCards));
+  }, [solvedCards]);
+
   const flip = () => {
     setFlipped(true);
   };
