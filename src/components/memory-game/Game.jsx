@@ -38,14 +38,16 @@ export default function Game({ score, setScore, gameMode, reset }) {
 
   React.useEffect(() => {
     if (flippedCard1 != null && flippedCard2 != null) {
-      setRoundOver(true);
-      if (flippedCard1 === flippedCard2) {
-        enqueueSnackbar("You got a match!", { variant: "success" });
-        setScore(score |> R.add(1));
-        setSolvedCards(solvedCards |> R.append(flippedCard1.id));
-      } else {
-        enqueueSnackbar("You didn't get a match!", { variant: "warning" });
-      }
+      setTimeout(() => {
+        setRoundOver(true);
+        if (flippedCard1 === flippedCard2) {
+          enqueueSnackbar("You got a match!", { variant: "success" });
+          setScore(score |> R.add(1));
+          setSolvedCards(solvedCards |> R.append(flippedCard1.id));
+        } else {
+          enqueueSnackbar("You didn't get a match!", { variant: "warning" });
+        }
+      }, 2000);
     }
   }, [flippedCard2]);
 
@@ -53,15 +55,12 @@ export default function Game({ score, setScore, gameMode, reset }) {
     if (gameMode === "easy" && score == 2) {
       setScore("");
       setGameOver(true);
-      console.log("you have won!");
     } else if (gameMode === "medium" && score == 6) {
       setGameOver(true);
       setScore("");
-      console.log("you have won!");
     } else if (gameMode === "hard" && score == 8) {
       setGameOver(true);
       setScore("");
-      console.log("you have won!");
     }
   }, [score]);
 
