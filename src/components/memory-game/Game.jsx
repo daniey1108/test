@@ -40,14 +40,14 @@ export default function Game({ score, setScore, gameMode, reset }) {
     if (flippedCard1 != null && flippedCard2 != null) {
       setTimeout(() => {
         setRoundOver(true);
-        if (flippedCard1 === flippedCard2) {
-          enqueueSnackbar("You got a match!", { variant: "success" });
-          setScore(score |> R.add(1));
-          setSolvedCards(solvedCards |> R.append(flippedCard1.id));
-        } else {
-          enqueueSnackbar("You didn't get a match!", { variant: "warning" });
-        }
       }, 2000);
+      if (flippedCard1 === flippedCard2) {
+        enqueueSnackbar("You got a match!", { variant: "success" });
+        setScore(score |> R.add(1));
+        setSolvedCards(solvedCards |> R.append(flippedCard1.id));
+      } else {
+        enqueueSnackbar("You didn't get a match!", { variant: "warning" });
+      }
     }
   }, [flippedCard2]);
 
