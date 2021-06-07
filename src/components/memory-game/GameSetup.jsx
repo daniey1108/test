@@ -7,11 +7,17 @@ import Game from "./Game.jsx";
 export default function GameSetup() {
   const [score, setScore] = React.useState("");
   const [gameMode, setGameMode] = React.useState("");
+  const [moves, setMoves] = React.useState("");
 
   const startOver = () => {
     setScore("");
     setGameMode("");
+    setMoves("");
   };
+
+  React.useEffect(() => {
+    console.log("moves", moves);
+  }, [moves]);
 
   return (
     <>
@@ -66,6 +72,7 @@ export default function GameSetup() {
               padding={2}
             >
               <MaterialUi.Typography>{`Score: ${score}`}</MaterialUi.Typography>
+              <MaterialUi.Typography>{`Moves: ${moves}`}</MaterialUi.Typography>
               <MaterialUi.Button
                 variant="outlined"
                 onClick={startOver}
@@ -79,6 +86,8 @@ export default function GameSetup() {
               setScore={setScore}
               gameMode={gameMode}
               reset={startOver}
+              moves={moves}
+              setMoves={setMoves}
             />
           </MaterialUi.Box>
         )}

@@ -14,7 +14,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Game({ score, setScore, gameMode, reset }) {
+export default function Game({
+  score,
+  setScore,
+  gameMode,
+  reset,
+  moves,
+  setMoves,
+}) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const mapWithIndex = R.addIndex(R.map);
@@ -37,9 +44,10 @@ export default function Game({ score, setScore, gameMode, reset }) {
 
   React.useEffect(() => {
     if (flippedCard1 != null && flippedCard2 != null) {
+      setMoves(R.add(moves, 1));
       setTimeout(() => {
         setRoundOver(true);
-      }, 2000);
+      }, 1500);
       if (flippedCard1 === flippedCard2) {
         enqueueSnackbar("You got a match!", { variant: "success" });
         setScore(score |> R.add(1));
