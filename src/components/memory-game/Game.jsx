@@ -18,6 +18,7 @@ export default function Game({ score, setScore, gameMode, reset }) {
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const mapWithIndex = R.addIndex(R.map);
+  const reOrderedCards = cards |> R.sort(() => Math.random() - 0.5);
   const [roundOver, setRoundOver] = React.useState(false);
   const [flippedCard1, setFlippedCard1] = React.useState(null);
   const [flippedCard2, setFlippedCard2] = React.useState(null);
@@ -28,11 +29,9 @@ export default function Game({ score, setScore, gameMode, reset }) {
   const handleFlip = (currentCard) => {
     if (flippedCard1 == null && flippedCard2 == null) {
       setFlippedCard1(currentCard);
-      console.log("flipping over the ...", currentCard.altText, "card1");
     }
     if (flippedCard1 != null && flippedCard2 == null) {
       setFlippedCard2(currentCard);
-      console.log("flipping over the ...", currentCard.altText, "card2");
     }
   };
 
@@ -75,21 +74,23 @@ export default function Game({ score, setScore, gameMode, reset }) {
   React.useEffect(() => {
     if (gameMode === "easy") {
       setGameCards(
-        cards
+        reOrderedCards
           |> R.dropLast(6)
-          |> R.concat((cards |> R.dropLast(6)))
+          |> R.concat((reOrderedCards |> R.dropLast(6)))
           |> R.sort(() => Math.random() - 0.5)
       );
     } else if (gameMode === "medium") {
       setGameCards(
-        cards
+        reOrderedCards
           |> R.dropLast(2)
-          |> R.concat((cards |> R.dropLast(2)))
+          |> R.concat((reOrderedCards |> R.dropLast(2)))
           |> R.sort(() => Math.random() - 0.5)
       );
     } else if (gameMode === "hard") {
       setGameCards(
-        cards |> R.concat(cards) |> R.sort(() => Math.random() - 0.5)
+        reOrderedCards
+          |> R.concat(reOrderedCards)
+          |> R.sort(() => Math.random() - 0.5)
       );
     }
   }, [gameMode]);
