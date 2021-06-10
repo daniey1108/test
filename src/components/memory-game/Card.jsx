@@ -29,6 +29,7 @@ export default function Card({
   handleFlip,
   solvedCards,
   roundOver,
+  canFlip,
 }) {
   const [flipped, setFlipped] = React.useState(false);
 
@@ -39,6 +40,7 @@ export default function Card({
   const flip = () => {
     setFlipped(true);
   };
+
   return (
     <>
       <MaterialUi.Grid item md={3} xs={12}>
@@ -60,8 +62,10 @@ export default function Card({
                 image={gameDefault}
                 alt="Flip me over to see what card I am"
                 onClick={() => {
-                  handleFlip();
-                  flip();
+                  if (canFlip) {
+                    handleFlip();
+                    flip();
+                  }
                 }}
                 style={{ height: "134px" }}
               />

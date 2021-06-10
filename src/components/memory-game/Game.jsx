@@ -126,6 +126,7 @@ export default function Game({
                 key={index}
                 solvedCards={solvedCards}
                 roundOver={roundOver}
+                canFlip={flippedCard2 |> R.isNil}
               />
             ))}
         </MaterialUi.Grid>
