@@ -35,6 +35,9 @@ export default function Game({
 
   const handleFlip = (currentCard) => {
     if (flippedCard1 == null && flippedCard2 == null) {
+      if (moves |> R.empty) {
+        setMoves(0);
+      }
       setFlippedCard1(currentCard);
     }
     if (flippedCard1 != null && flippedCard2 == null) {
