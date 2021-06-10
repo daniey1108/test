@@ -52,10 +52,6 @@ export default function Card({
                 component="img"
                 image={currentCard.id |> flippedImage}
                 alt={currentCard.altText}
-                onClick={() => {
-                  handleFlip();
-                  flip();
-                }}
                 style={{ height: "134px" }}
               />
             ) : (

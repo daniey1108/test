@@ -71,7 +71,6 @@ export default function GameSetup() {
               justifyContent="space-between"
               padding={2}
             >
-              <MaterialUi.Typography>{`Score: ${score}`}</MaterialUi.Typography>
               <MaterialUi.Typography>{`Moves: ${moves}`}</MaterialUi.Typography>
               <MaterialUi.Button
                 variant="outlined"
