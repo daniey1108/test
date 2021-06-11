@@ -2,6 +2,7 @@ import React from "react";
 import * as R from "ramda";
 
 import * as MaterialUi from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 import gameCard1 from "../../images/gameCard1.jpg";
 import gameCard2 from "../../images/gameCard2.jpg";
@@ -12,6 +13,22 @@ import gameCard6 from "../../images/gameCard6.PNG";
 import gameCard7 from "../../images/gameCard7.jpg";
 import gameCard8 from "../../images/gameCard8.jpg";
 import gameDefault from "../../images/gameDefault.jpg";
+
+const useStyles = makeStyles((theme) => ({
+  gameCardLocation: {
+    textAlign: "center",
+    padding: theme.spacing(2),
+  },
+  gameCard: {
+    height: "175px",
+  },
+  gameCardInlay: {
+    padding: "8px",
+  },
+  gameCardImage: {
+    height: "159px",
+  },
+}));
 
 const flippedImage = R.cond([
   [R.equals("gameCard1"), R.always(gameCard1)],
@@ -31,6 +48,7 @@ export default function Card({
   roundOver,
   canFlip,
 }) {
+  const classes = useStyles();
   const [flipped, setFlipped] = React.useState(false);
 
   React.useEffect(() => {
@@ -43,18 +61,15 @@ export default function Card({
 
   return (
     <>
-      <MaterialUi.Grid item md={3} xs={12}>
-        <MaterialUi.Card
-          variant="elevation"
-          style={{ height: "150px", width: "200px" }}
-        >
-          <MaterialUi.CardContent style={{ padding: "8px" }}>
+      <MaterialUi.Grid item md={3} xs={12} className={classes.gameCardLocation}>
+        <MaterialUi.Card variant="elevation" className={classes.gameCard}>
+          <MaterialUi.CardContent className={classes.gameCardInlay}>
             {flipped ? (
               <MaterialUi.CardMedia
                 component="img"
                 image={currentCard.id |> flippedImage}
                 alt={currentCard.altText}
-                style={{ height: "134px" }}
+                className={classes.gameCardImage}
               />
             ) : (
               <MaterialUi.CardMedia
@@ -67,7 +82,7 @@ export default function Card({
                     flip();
                   }
                 }}
-                style={{ height: "134px" }}
+                className={classes.gameCardImage}
               />
             )}
           </MaterialUi.CardContent>

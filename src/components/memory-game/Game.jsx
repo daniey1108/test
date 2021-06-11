@@ -98,13 +98,8 @@ export default function Game({
 
   return (
     <>
-      <MaterialUi.Box padding={2} bgcolor="#2286c3">
-        <MaterialUi.Grid
-          container
-          spacing={4}
-          justify="space-between"
-          alignItems="center"
-        >
+      <MaterialUi.Box padding={3} bgcolor="#2286c3">
+        <MaterialUi.Grid container spacing={4} justify="space-evenly">
           {gameCards
             |> mapWithIndex((currentCard, index) => (
               <Card

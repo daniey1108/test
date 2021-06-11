@@ -61,7 +61,7 @@ export default function GameSetup() {
     if (gameOver) {
       pause();
     }
-  });
+  }, [gameOver]);
 
   React.useEffect(() => {
     if (pauseGame) {
