@@ -62,31 +62,33 @@ export default function Card({
   return (
     <>
       <MaterialUi.Grid item md={3} xs={12} className={classes.gameCardLocation}>
-        <MaterialUi.Card variant="elevation" className={classes.gameCard}>
-          <MaterialUi.CardContent className={classes.gameCardInlay}>
-            {flipped ? (
-              <MaterialUi.CardMedia
-                component="img"
-                image={currentCard.id |> flippedImage}
-                alt={currentCard.altText}
-                className={classes.gameCardImage}
-              />
-            ) : (
-              <MaterialUi.CardMedia
-                component="img"
-                image={gameDefault}
-                alt="Flip me over to see what card I am"
-                onClick={() => {
-                  if (canFlip) {
-                    handleFlip();
-                    flip();
-                  }
-                }}
-                className={classes.gameCardImage}
-              />
-            )}
-          </MaterialUi.CardContent>
-        </MaterialUi.Card>
+        <MaterialUi.Box display="flex" justifyContent="center">
+          <MaterialUi.Card variant="elevation" className={classes.gameCard}>
+            <MaterialUi.CardContent className={classes.gameCardInlay}>
+              {flipped ? (
+                <MaterialUi.CardMedia
+                  component="img"
+                  image={currentCard.id |> flippedImage}
+                  alt={currentCard.altText}
+                  className={classes.gameCardImage}
+                />
+              ) : (
+                <MaterialUi.CardMedia
+                  component="img"
+                  image={gameDefault}
+                  alt="Flip me over to see what card I am"
+                  onClick={() => {
+                    if (canFlip) {
+                      handleFlip();
+                      flip();
+                    }
+                  }}
+                  className={classes.gameCardImage}
+                />
+              )}
+            </MaterialUi.CardContent>
+          </MaterialUi.Card>
+        </MaterialUi.Box>
       </MaterialUi.Grid>
     </>
   );

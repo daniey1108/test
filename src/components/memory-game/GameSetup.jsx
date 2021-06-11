@@ -5,26 +5,26 @@ import { useStopwatch } from "react-timer-hook";
 import * as MaterialUi from "@material-ui/core";
 import PauseIcon from "@material-ui/icons/Pause";
 import ReplayIcon from "@material-ui/icons/Replay";
-import WatchLaterIcon from "@material-ui/icons/WatchLater";
+import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Game from "./Game.jsx";
 
 const useStyles = makeStyles((theme) => ({
-  gameOverBackdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
+  gameDialog: {
+    textAlign: "center",
   },
-  gamePauseBackdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
-    backgroundColor: "#000000",
+  gameDialogTitle: {
+    textAlign: "center",
   },
   gameInfoAndActionsGrid: {
     paddingBottom: "6px",
   },
-  gameInfoAndActionsItem: {
-    textAlign: "center",
+  gameInfoItem: {
+    padding: "6px",
+  },
+  gameActionButton: {
+    marginLeft: "16px",
   },
 }));
 
@@ -32,7 +32,6 @@ export default function GameSetup() {
   const classes = useStyles();
   const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
     useStopwatch({ autoStart: false });
-
   const [score, setScore] = React.useState("");
   const [gameMode, setGameMode] = React.useState("");
   const [moves, setMoves] = React.useState("");
@@ -44,11 +43,17 @@ export default function GameSetup() {
     setGameMode("");
     setMoves("");
     reset();
+    pause();
   };
 
   const gameOverCleanUp = () => {
     setGameOver(false);
     startOver();
+  };
+
+  const unPauseGame = () => {
+    setPauseGame(false);
+    start();
   };
 
   React.useEffect(() => {
@@ -121,42 +126,45 @@ export default function GameSetup() {
               spacing={2}
               className={classes.gameInfoAndActionsGrid}
             >
-              <MaterialUi.Grid item sm={3} xs={6}>
-                <MaterialUi.Box
-                  display="flex"
-                  className={classes.gameInfoAndActionsItem}
-                >
-                  <WatchLaterIcon />
+              <MaterialUi.Grid item xs={4}>
+                <MaterialUi.Box display="flex" className={classes.gameInfoItem}>
+                  <QueryBuilderIcon />
                   <MaterialUi.Typography>
                     {`${days}:${hours}:${minutes}:${seconds}`}
                   </MaterialUi.Typography>
                 </MaterialUi.Box>
               </MaterialUi.Grid>
-              <MaterialUi.Grid item sm={3} xs={6}>
-                <MaterialUi.Box className={classes.gameInfoAndActionsItem}>
+              <MaterialUi.Grid item xs={4}>
+                <MaterialUi.Box className={classes.gameInfoItem}>
                   <MaterialUi.Typography>{`Moves: ${moves}`}</MaterialUi.Typography>
                 </MaterialUi.Box>
               </MaterialUi.Grid>
-              <MaterialUi.Grid item sm={3} xs={6}>
-                <MaterialUi.Box className={classes.gameInfoAndActionsItem}>
-                  <MaterialUi.Button
-                    variant="outlined"
-                    onClick={() => setPauseGame(true)}
-                    size="small"
-                  >
-                    Pause Game <PauseIcon />
-                  </MaterialUi.Button>
-                </MaterialUi.Box>
-              </MaterialUi.Grid>
-              <MaterialUi.Grid item sm={3} xs={6}>
-                <MaterialUi.Box className={classes.gameInfoAndActionsItem}>
-                  <MaterialUi.Button
-                    variant="outlined"
-                    onClick={startOver}
-                    size="small"
-                  >
-                    Start Over <ReplayIcon />
-                  </MaterialUi.Button>
+              <MaterialUi.Grid item xs={4}>
+                <MaterialUi.Box
+                  id="gameActions"
+                  display="flex"
+                  justifyContent="flex-end"
+                >
+                  <MaterialUi.Tooltip title="Pause">
+                    <MaterialUi.Button
+                      variant="outlined"
+                      onClick={() => setPauseGame(true)}
+                      size="small"
+                      className={classes.gameActionButton}
+                    >
+                      <PauseIcon />
+                    </MaterialUi.Button>
+                  </MaterialUi.Tooltip>
+                  <MaterialUi.Tooltip title="Restart">
+                    <MaterialUi.Button
+                      variant="outlined"
+                      onClick={startOver}
+                      size="small"
+                      className={classes.gameActionButton}
+                    >
+                      <ReplayIcon />
+                    </MaterialUi.Button>
+                  </MaterialUi.Tooltip>
                 </MaterialUi.Box>
               </MaterialUi.Grid>
             </MaterialUi.Grid>
@@ -171,20 +179,62 @@ export default function GameSetup() {
           </MaterialUi.Box>
         )}
       </MaterialUi.Box>
-      <MaterialUi.Backdrop
-        className={classes.gameOverBackdrop}
-        open={gameOver}
-        onClick={() => gameOverCleanUp()}
-      >
-        <MaterialUi.Typography>{`You did it You won!`}</MaterialUi.Typography>
-      </MaterialUi.Backdrop>
-      <MaterialUi.Backdrop
-        className={classes.gamePauseBackdrop}
-        open={pauseGame}
-        onClick={() => setPauseGame(false)}
-      >
-        <MaterialUi.Typography>{`Game is Paused`}</MaterialUi.Typography>
-      </MaterialUi.Backdrop>
+      <MaterialUi.Dialog open={gameOver} onClose={gameOverCleanUp}>
+        <MaterialUi.DialogTitle className={classes.gameDialogTitle}>
+          Game Over
+        </MaterialUi.DialogTitle>
+        <MaterialUi.DialogContent className={classes.gameDialog}>
+          <MaterialUi.DialogContentText>
+            <strong>{`You did it You won!`}</strong>
+            <br />
+            {`You were playing on ${gameMode} mode`}
+            <br />
+            {`It took you ${moves} moves and `}
+            <br />
+            {`${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`}
+            <br />
+            {` to clear the board!`}
+          </MaterialUi.DialogContentText>
+          <br />
+          <MaterialUi.Button variant="outlined" onClick={gameOverCleanUp}>
+            Return to Home
+          </MaterialUi.Button>
+        </MaterialUi.DialogContent>
+      </MaterialUi.Dialog>
+      <MaterialUi.Dialog fullScreen open={pauseGame} onClose={unPauseGame}>
+        <MaterialUi.DialogTitle className={classes.gameDialogTitle}>
+          Paused Game
+        </MaterialUi.DialogTitle>
+        <MaterialUi.DialogContent className={classes.gameDialog}>
+          <MaterialUi.DialogContentText>
+            <strong>{`Here are your quick stats about the current game:`}</strong>
+            <br />
+            {`You are playing on ${gameMode} mode`}
+            <br />
+            {`You have made ${moves} moves and taken`}
+            <br />
+            {`${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds, so far`}
+          </MaterialUi.DialogContentText>
+          <br />
+          <MaterialUi.DialogContentText>
+            Would you like to ...
+          </MaterialUi.DialogContentText>
+          <MaterialUi.Button
+            variant="outlined"
+            onClick={unPauseGame}
+            className={classes.gameActionButton}
+          >
+            Resume Game
+          </MaterialUi.Button>
+          <MaterialUi.Button
+            variant="outlined"
+            onClick={startOver}
+            className={classes.gameActionButton}
+          >
+            Quit Game
+          </MaterialUi.Button>
+        </MaterialUi.DialogContent>
+      </MaterialUi.Dialog>
     </>
   );
 }
