@@ -3,26 +3,17 @@ import * as R from "ramda";
 import { useSnackbar } from "notistack";
 
 import * as MaterialUi from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 import Card from "./Card.jsx";
-
-const useStyles = makeStyles((theme) => ({
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: "#fff",
-  },
-}));
 
 export default function Game({
   score,
   setScore,
   gameMode,
-  reset,
   moves,
   setMoves,
+  setGameOver,
 }) {
-  const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const mapWithIndex = R.addIndex(R.map);
   const reOrderedCards = cards |> R.sort(() => Math.random() - 0.5);
@@ -31,11 +22,10 @@ export default function Game({
   const [flippedCard2, setFlippedCard2] = React.useState(null);
   const [gameCards, setGameCards] = React.useState([]);
   const [solvedCards, setSolvedCards] = React.useState([]);
-  const [gameOver, setGameOver] = React.useState(false);
 
   const handleFlip = (currentCard) => {
     if (flippedCard1 == null && flippedCard2 == null) {
-      if (moves |> R.empty) {
+      if (moves === "") {
         setMoves(0);
       }
       setFlippedCard1(currentCard);
@@ -106,11 +96,6 @@ export default function Game({
     }
   }, [gameMode]);
 
-  const gameOverCleanUp = () => {
-    setGameOver(false);
-    reset();
-  };
-
   return (
     <>
       <MaterialUi.Box padding={2} bgcolor="#2286c3">
@@ -134,13 +119,6 @@ export default function Game({
             ))}
         </MaterialUi.Grid>
       </MaterialUi.Box>
-      <MaterialUi.Backdrop
-        className={classes.backdrop}
-        open={gameOver}
-        onClick={() => gameOverCleanUp()}
-      >
-        <MaterialUi.Typography>{`You did it You won!`}</MaterialUi.Typography>
-      </MaterialUi.Backdrop>
     </>
   );
 }
