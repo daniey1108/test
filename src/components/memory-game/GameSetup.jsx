@@ -29,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function GameSetup() {
+  const searchParams = new URLSearchParams(window.location.search);
+  const [difficulty, setDifficulty] = React.useState(
+    searchParams.get("difficulty")
+  );
   const classes = useStyles();
   const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
     useStopwatch({ autoStart: false });
@@ -38,9 +42,14 @@ export default function GameSetup() {
   const [gameOver, setGameOver] = React.useState(false);
   const [pauseGame, setPauseGame] = React.useState(false);
 
+  React.useEffect(() => {
+    console.log("difficulty", difficulty);
+  }, [difficulty]);
+
   const startOver = () => {
     setScore("");
     setGameMode("");
+    searchParams.delete("difficulty");
     setMoves("");
     reset();
     pause();
